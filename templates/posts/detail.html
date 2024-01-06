@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Platzigram</title>
+{% endblock%}
+
+<!DOCTYPE html>
+
+{% block container %}
+<div class="container col-sm-12 col-md-6">
+    <div class="d-flex justify-content-center align-items-center">
+        {% include "posts/posts_card.html" %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% comment %} Aqui especificamos de que template heredará los elementos 
+e inyectará lo definido en este apartado, como si tomara una plantilla para renderizar. {% endcomment %}
+
+{% block head_content %} {% comment %} Actuan como si se definieran clases. {% endcomment %}
+    <title>Platzigram feed</title>
+{% endblock  %}
+
+{% block container %} {% comment %} Apartado para desplegar los posts creados por los usuarios. {% endcomment %}
+    <div class="container col-sm-12 col-md-6"> {% comment %} las "class" es sintaxis de "BOOTSTRAP", {% endcomment %}
+        <div class="row d-flex justify-content-center ">
+            {% for post in posts %}
+                {% include "posts/posts_card.html" %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include "pagination.html" %}
+
+{% endblock %}
+
+
+
+
+
