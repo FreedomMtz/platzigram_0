@@ -1,21 +1,33 @@
-<div class="d-block col-sm-12 col-md-8 post-container ">
+{% load static %}
+
+<div class="d-block col-sm-12 col-md-10 post-container ">
     <div class="media pt-3 pl-3 pb-1">
+        
         <a href="{% url "users:detail" post.user.username %}">
-            <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}">
+            {% if post.profile.picture %}
+                <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
+            {% else %}
+                <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
+            {% endif %}
+            
         </a>
         
         <div class="media-body">
             <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
         </div>
     </div>
-    <img style="width: 100%" src="{{ post.photo.url }}" alt="{{ post.title }}">
-    <h6 class="ml-1 mt-1">{{ post.title }}</h6>
+    <img  style="width: 100%; height: 400px; object-fit: cover;" src="{{ post.photo.url }}" alt="{{ post.title }}">
+    {#<h6 class="ml-1 mt-1">{{ post.title }}</h6> #}
     <p class="mt-1 ml-2">
-        <a href="" style="color: #000; font-size: 20px;">
-            <i class="far fa-heart"></i>
-        </a> 30 likes
+        <a href="{% url "posts:postLike" post.id %}" style="color: #000; font-size: 20px;">
+            {% if post.id in liked_posts %}
+                <i class="fas fa-heart text-danger"> </i> {{post.likes}}
+            {% else %}
+                <i class="far fa-heart"> {{post.likes}}</i>
+            {% endif %}
+        </a> likes
     </p>
     <p class="ml-2 mt-0 mb-2">
-        <b>{{post.title}}</b> - <small>{{post.created}}</small>
+        <strong>@{{post.user.username}}</strong>-<h7>{{post.title}}</h7> - <small>{{post.created}}</small>
     </p>
 </div>

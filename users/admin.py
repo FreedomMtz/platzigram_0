@@ -5,7 +5,7 @@ from django.contrib import admin
 
 # Models.
 from django.contrib.auth.models import User # Importamos al modelo User para poder delegar al "ADMIN" al modelo Profile.
-from users.models import Profile
+from users.models import Profile, Follow
 
 # Register your models here.
 @admin.register(Profile)
@@ -63,3 +63,12 @@ class UserAdmin(BaseUserAdmin):
     
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+@admin.register(Follow)
+class ProfileAdmin(admin.ModelAdmin): # Damos de alta al modelo llamado "Follow" para poder verlo en el ADMIN.
+    """Posts admin."""
+    list_display = ('pk','follower','following') # Modificamos la forma en que ADMIN mostraran los datos.
+    list_filter = (
+        'follower',
+        'following'
+    ) 

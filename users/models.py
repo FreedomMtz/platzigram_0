@@ -27,3 +27,9 @@ class Profile(models.Model):
         """Return username."""
         return self.user.username
     
+# Modelo para relacionar los Followers
+class Follow(models.Model): 
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+
+    

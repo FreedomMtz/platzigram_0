@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_content %}
+<title>@{{ user.username }} | Platzigram</title>
+{% endblock %}
+
+{% block container %}
+<div class="container">
+    <div class="row justify-content-md-center" style="margin-top: -1em;">
+        <div class="col-6 p-4" id="profile-box">
+            <div class='media'>
+                        
+                {% if user.profile.picture %}
+                    <img src="{{ user.profile.picture.url }}" class="rounded-circle" height="50"/>
+                {% else %}
+                    <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50"/>
+                {% endif %}
+                
+                <div class="media-body">
+                    <h5 class="ml-4">@{{ user.username }} | {{user.get_full_name}}</h5>
+                </div>
+            </div>
+            <hr>
+            <div class='container'>
+                <p class="row">Following:<br></p>
+                {% for users in users_filter %}
+                    <div class="col-md-6">
+                        <ul>
+                            <a href="{% url "users:detail" users.username %}"> 
+                                <li >
+                                    {% if users.profile.picture %}
+                                        <img src="{{ users.profile.picture.url }}" class="rounded-circle" height="50"/>
+                                    {% else %}
+                                        <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50"/>
+                                    {% endif %}
+                                    
+                                    @{{users}}
+                                </li>
+                            </a>
+                        </ul>
+                    </div>    
+                {% endfor %}
+                    
+            </div>
+    </div>
+</div>
+{% endblock %}
