@@ -120,7 +120,7 @@ def FollowView(request, username):
     
     return  HttpResponseRedirect(reverse('users:detail', args=[username]))
 
-#def FollowersView(request, username):
+""" #def FollowersView(request, username):
 
     ###user_loged = request.user #Usuario logeado actualmente
     #user = get_object_or_404(User, username=username) #Usuario del perfil que estamos viendo
@@ -134,7 +134,7 @@ def FollowView(request, username):
     #    'followers_names': followers_names,
     #    'user': user
     #}
-    #return render(request, 'users/followers.html',  context)
+    #return render(request, 'users/followers.html',  context) """
 
 class FollowerView(LoginRequiredMixin, DetailView):
     """User detail view. Independientemente si es propio o de otro usuario

@@ -4,6 +4,7 @@
     padding: 0;
 }
 
+
 html, body {
     background: #fafafa;
     height: 100%;
@@ -49,3 +50,4 @@ html, body {
 #user-posts #post-thumb {
     background: #fff;
 }
+

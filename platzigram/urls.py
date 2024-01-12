@@ -25,7 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('', include(('posts.urls','posts'), namespace='posts')), # En la tupla incluimos al modulo "posts.urls" y la app "posts".
-    path('users/', include(('users.urls','users'), namespace='users')) # En la tupla incluimos al modulo "users.urls" y la app "users".
+    path('users/', include(('users.urls','users'), namespace='users')), # En la tupla incluimos al modulo "users.urls" y la app "users".
+    path('comment/', include(('comment.urls','comment'), namespace='comment')) # En la tupla incluimos al modulo "comment.urls" y la app "comment".
+    
     
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

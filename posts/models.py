@@ -24,7 +24,6 @@ class Post(models.Model):
     modified = models.DateTimeField(auto_now=True) # Creamos los campos para la fecha de modificación 
     
     likes = models.IntegerField(default=0) # Agregamos una variable que serivrá como contador de likes.
-    color_heart = models.BooleanField(default=False)
     
     def __str__(self):  # Definimo que mostrar al ejecutar un QUERRY
         """Return title and username."""
@@ -33,5 +32,5 @@ class Post(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_likes") #Fk para el modelo User.
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_likes") #Fk para el modelos Posts.
-    color = models.BooleanField(default=False)
+   
     

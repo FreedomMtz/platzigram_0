@@ -24,7 +24,7 @@ urlpatterns = [
     ###Solucion del reto por parte del profe
     
     path(
-        route='posts/<int:pk>/',
+        route='posts/<int:pk>/', #post.id
         view=views.PostDetailView.as_view(),
         name='detailPost'
     ),
