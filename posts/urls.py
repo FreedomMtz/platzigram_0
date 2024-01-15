@@ -24,7 +24,7 @@ urlpatterns = [
     ###Solucion del reto por parte del profe
     
     path(
-        route='posts/<int:pk>/', #post.id
+        route='posts/<int:pk>/', #post.id, pk
         view=views.PostDetailView.as_view(),
         name='detailPost'
     ),
@@ -33,6 +33,32 @@ urlpatterns = [
         route='posts/<int:post_id>/like',
         view=views.LikesView,
         name="postLike"
-    )
+    ),
+    
+    path(
+        route='posts/<int:post_id>/update',
+        view=views.UpdatePostView.as_view(),
+        name="postUpdate"
+    ),
+    
+    path(
+        route='posts/<int:pk>/delete',
+        view=views.PostDeleteView.as_view(),
+        name="postDelete"
+    ),
+    
+    path(
+        route='posts/<int:pk>/<int:id>/comment_delete',
+        view=views.DeleteCommentView.as_view(),
+        name="commentDelete"
+    ),
+    
+    path(
+        route='posts/<int:post_pk>/<int:comments_id>/update_comment',
+        view=views.UpdateCommentView.as_view(),
+        name="commentUpdate"
+    ),
+    
+    
 
 ]

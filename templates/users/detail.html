@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block head_content %}
 <title>@{{ user.username }} | Platzigram</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<!-- jQuery y Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 {% endblock %}
 
 {% block container %}
@@ -77,17 +89,32 @@
 
     <hr>
     
+    
     {#Apartado para mostrar los posts.#}
     <div class="container" id="user-posts">
-        <div class="row mt-3">
+        <div class="row mt-1 ">
             {% for post in posts %}
-            <div class="col-sm-4 pt-3 pb-3  pr-3 pl-3 d-flex justify-content-center align-items-center">
-                {#<a href="{% url 'users:detailPost' request.user.username post.id %}" class="border">#}
-                <a href="{% url 'posts:detailPost' post.id %}" class="border">
-                    <img src="{{ post.photo.url }}" alt="{{ post.title }}" class="img-fluid"  style="width: 400px; height: 300px; object-fit: cover;"/>
-                </a>
-            </div>
-            {% endfor %}
+            
+                <div class="col-sm-4 pt-0 pb-3  pr-3 pl-3 d-flex flex-column justify-content-center align-items-center">
+                    {#<a href="{% url 'users:detailPost' request.user.username post.id %}" class="border">#}
+                    {% if user == request.user %}   
+                        <ul class="navbar-nav ">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{% url 'posts:postUpdate' post.id %}">Edit</a>
+                                        <a class="dropdown-item" href="{% url 'posts:postDelete' post.id %}">Delete</a>
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <a href="{% url 'posts:detailPost' post.id %}" class="border">
+                        <img src="{{ post.photo.url }}" alt="{{ post.title }}" class="img-fluid"  style="width: 400px; height: 300px; object-fit: cover;"/>
+                    </a>
+                </div>   
+                {% endfor %}
         </div>
     </div>
 

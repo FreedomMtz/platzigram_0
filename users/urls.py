@@ -3,6 +3,8 @@
 #Django
 from django.urls import path
 
+
+
 #Views
 from users import views # Aqui se habia definido como as user_views. Pero ya no es necesario.
 
@@ -38,6 +40,13 @@ urlpatterns = [
         name="update"
     ), # Agregamos la vista para modificar nuestro perfil.
     
+    path(
+        route='me/profile/delete_photo',
+        view=views.delete_picture, 
+        name="deletePicture"
+    ), # Agregamos la vista para eliminar nuestra foto de perfil.
+    
+    
      #Posts
     path(
         route='profile/<str:username>/',
@@ -61,7 +70,13 @@ urlpatterns = [
         route='profile/<str:username>/following',
         view=views.FollowingView.as_view(),
         name="following"
-    )
+    ),
+    
+    path(
+        route='me/profile/delete_profile',
+        view=views.delete_user, 
+        name="deleteUser"
+    ) # Agregamos la vista para eliminar nuestro perfil y usuario.
     
     
     

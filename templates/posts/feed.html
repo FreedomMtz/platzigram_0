@@ -1,11 +1,12 @@
 {% extends "base.html" %} {% comment %} Aqui especificamos de que template heredará los elementos 
 e inyectará lo definido en este apartado, como si tomara una plantilla para renderizar. {% endcomment %}
-<script src="https://kit.fontawesome.com/d2b20da030.js" crossorigin="anonymous"></script>
+
 {% load static %}
 
 
 {% block head_content %} {% comment %} Actuan como si se definieran clases. {% endcomment %}
     <title>Platzigram feed</title>
+    <script src="https://kit.fontawesome.com/d2b20da030.js" crossorigin="anonymous"></script>
 {% endblock  %}
 
 {% block container %} {% comment %} Apartado para desplegar los posts creados por los usuarios. {% endcomment %}
@@ -45,22 +46,32 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
                         
                         <!-- Icono de mensaje -->
                         <a href="{% url "posts:detailPost" post.id %}">
-                            <i class="fa fa-comment ml-2" style="color: #000; font-size: 30px;"></i>
+                            <i class="fa-regular fa-comment ml-2" style="color: #000; font-size: 30px;"></i>
                         </a> 
                     </p>
-                    <strong class="ml-2">{{post.likes}} {% if post.likes > 1  %}likes{%else%}like{% endif %} </strong>
+                    <strong class="ml-2">{{post.likes}} {% if post.likes != 1  %}likes{%else%}like{% endif %} </strong>
                     {% with username=post.user.username %}
     
                     {% for key, value in comment_counts.items %}
-                        {% if username == key %}
+                        {% if post.id == key %}
                             {#{{ key }} :#} <strong class="ml-2">{{value}}</strong>
-                            <strong>{% if value > 1  %}comentarios{%else%}comentario{% endif %}</strong>
+                            <strong>{% if value != 1  %}Comments{%else%}Comment{% endif %}</strong>
+                            {% if value >= 1 %}
+                                <a class="" style="color: #000" href="{% url "posts:detailPost" post.id %}">
+                                    More...
+                                </a> 
+                            {% else %}
+                                <a class="" style="color: #000" href="{% url "posts:detailPost" post.id %}">
+                                    Post comment...
+                                </a> 
+                            {% endif %}
+
                         {%endif%}
+
+
                     {% endfor %}
                     {% endwith %}
-                    <a class="" style="color: #000" href="{% url "posts:detailPost" post.id %}">
-                        ver mas...
-                    </a> 
+                   
                     <p class="ml-2 mt-0 mb-2">
                         <strong>@{{post.user.username}}</strong>-<h7>{{post.title}}</h7> - <small>{{post.created}}</small>
                     </p>

@@ -23,7 +23,9 @@
                     {{ comment_form.body }}
                 </div>   
             </div>
-            <div class="d-flex align-items-endblock"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
+            <div class="d-flex align-items-endblock">
+                <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+            </div>
            
         </div>
     </form>
@@ -45,8 +47,34 @@
                     </div>
                 </a>
             </div>
-            <div class="mt-2">
+            <div class="mt-2 mb-2 d-flex justify-content-between ">
                 <p class="comment-text">{{ comments.body }}</p>
+                {% if user == comments.user%}
+                        <ul class="navbar-nav ">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{% url 'posts:commentUpdate' post.pk comments.pk %}">Edit</a>
+                                    <a class="dropdown-item" href="{% url 'posts:commentDelete' post.pk comments.pk %}">Delete</a>
+                                </div>
+                            </li>
+                        </ul>
+                {% endif %}
+                {% if user == post.user and not user == comments.user%}
+                        <ul class="navbar-nav ">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{% url 'posts:commentDelete' post.id comments.id %}">Delete</a>
+                                </div>
+                            </li>
+                        </ul>
+                {% endif %}
+                
                 
             </div>
         </div>

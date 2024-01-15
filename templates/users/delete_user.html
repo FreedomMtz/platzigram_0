@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_content %}
+    <title>@{{ request.user.username }} | Delete profile </title>
+{% endblock  %}
+
+{% block container %}
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-6 pt-3 pb-3" id="profile-box">
+            <h5 class="card-title">Delete profile?</h5>
+            <p class="card-text">Deleting a profile will permanently delete it from the database.</p>
+            <form class='col-md-12  d-flex justify-content-between ' method="POST" action="">
+                {% csrf_token %}
+                <a class="btn btn-primary" href="{% url "users:update" %}">Keep Profile</a>
+                <button type="submit" class="btn btn=primary btn-danger">Delete Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

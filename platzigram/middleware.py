@@ -19,9 +19,13 @@ class ProfileCompletionMiddlewere:
         """Code to be executed for each request before the view is called"""
         if not request.user.is_anonymous:
             if not request.user.is_staff:
+                print("bandera1")
                 profile = request.user.profile
-                if not profile.picture or not profile.biography:
+                if not profile.user.profile:
                     if request.path not in [reverse('users:update'), reverse('users:logout')]:
+                        print("bandera2")
                         return redirect('users:update')
+                print("bandera3")
         response = self.get_response(request)
         return response
+    

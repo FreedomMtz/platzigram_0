@@ -100,7 +100,7 @@ h6 {
 
 p {
     margin-top: 0;
-    margin-bottom: 1rem
+    margin-bottom: 0
 }
 
 abbr[data-original-title],
@@ -452,7 +452,7 @@ h6 {
 }
 
 hr {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, .1)
@@ -8167,7 +8167,7 @@ button.bg-dark:hover {
 
 .mt-4,
 .my-4 {
-    margin-top: 1.5rem !important
+    margin-top: 1rem !important
 }
 
 .mr-4,
@@ -8311,7 +8311,7 @@ button.bg-dark:hover {
 
 .pt-4,
 .py-4 {
-    padding-top: 1.5rem !important
+    padding-top: 0.6rem !important
 }
 
 .pr-4,

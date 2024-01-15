@@ -5,9 +5,11 @@ from django.contrib.auth import authenticate, login, logout # Importamos las lib
 from django.contrib.auth.decorators import login_required # Importamos al decorador "login_r.."para evitar logout repentino.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views #Importamos una vista generica para utulizar "Authenticate"
+from django.contrib import messages
+from django.test import override_settings
 from django.db.models.base import Model as Model
 from django.shortcuts import render, redirect, get_object_or_404 # Redirect solo acepta valores ".html" o sus "names".
-from django.views.generic import DetailView, FormView, UpdateView # Modulo para crear clases de view.
+from django.views.generic import DetailView, FormView, UpdateView, DeleteView # Modulo para crear clases de view.
 from django.urls import reverse, reverse_lazy # Modulo para crear URLS.
 from django.http import HttpResponseRedirect
 
@@ -77,17 +79,43 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         """Creamos la "URL" con el nombre de usuario obtenido en la  linea anterior."""
         username = self.object.user.username
         return reverse('users:detail', kwargs={'username': username})
+ 
+@login_required
+#@override_settings(MIDDLEWARE=['platzigram.middleware.ProfileCompletionMiddlewere'])
+def delete_user(request):
+    user = request.user
+    print("eliminacion de perfil1")
+    if request.method == 'POST':
+        # Eliminar el usuario y cerrar la sesión
+        print("eliminacion de perfil2")
+        user.delete()
+        logout(request)
+        #messages.success(request, 'Tu cuenta ha sido eliminada exitosamente.')
+        return redirect('users:login')  # Reemplaza con tu URL de inicio
+    return render(request, 'users/delete_user.html')
+ 
+@login_required
+def delete_picture(request):
+    user = request.user
+    #print("bander111")
+    if request.method == "POST":
+        #print("bander1")
+        if user.profile.picture:
+            user.profile.picture.delete()
+            #print("bander2")
+        return redirect("users:update")
+    #print("bander3")
+
+    return render(request, 'users/delete_picture.html')
    
-class SignUpView(auth_views.LoginView, FormView):
+class SignUpView(FormView):
     """Users sign up. Utilizando "FromView" """
     
     """Signup a user."""
     """ login_url = '/' #En realidad solo úede funcionar con redirect_field_name"""
     redirect_field_name = 'posts:feed'
     redirect_authenticated_user = True
-    
-    
-    
+       
     template_name = "users/signup.html"
     form_class = SignupForm
     success_url = reverse_lazy('users:login')

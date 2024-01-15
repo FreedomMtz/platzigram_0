@@ -37,6 +37,9 @@
                             <p class="ml-4">
                                 <input type="file" name="picture" >
                             </p>
+                            {% if profile.picture %}
+                                <a class="ml-4 mt-1 btn btn-primary btn-danger" href="{% url "users:deletePicture" %}">Delete profile picture.</a>
+                            {% endif %}
                         </div>
                     </div>
                     {# Error picture.#}
@@ -101,9 +104,12 @@
                         </div>
 
                     </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mt-5">Update info</button>
+                    <div class="row justify-content-md-center">
+                        <button type="submit" class="btn btn-primary btn-block mt-5">Update info</button>
+                        <a class="ml-4 mt-1 btn btn-primary btn-danger" href="{% url "users:deleteUser"%}">Delete profile.</a>
+                    </div>
                 </form>
+
             </div>
         </div>
     </div>

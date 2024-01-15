@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_content %}
+    <title>@{{ request.user.username }} | Update post</title>
+{% endblock  %}
+
+{% block container %}
+
+    <div class="container col-sm-12 col-md-10">
+
+        <div class="row justify-content-md-center" style="margin-top: -1em;">
+            <div class="col-6 p-4" id="profile-box">
+
+                <form action= "{% url 'posts:postUpdate' post.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if messages %}
+                        <ul class="messages list-unstyled">
+                            {% for message in messages %}
+                                <li  {% if message.tags %} class="alert alert-success {{ message.tags }} " {% endif %}> {{ message }} </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    <div class='row justify-content-md-center '>
+                        <a href="{% url "users:detail" post.user.username %}">
+                            {% if post.profile.picture %}
+                                <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
+                            {% else %}
+                                <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
+                            {% endif %}
+                            
+                        </a>
+                        <div class="media-body">
+                            <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
+                        </div>
+                        <img src="{{ post.photo.url }}" class="img-fluid mb-2 justify-content-between"  style="width: 350px; height: 320px; object-fit: cover;"/>
+                    </div>    
+                    <hr>
+                    {# Tilte field. #}
+                    <div class="form-group" style="margin-top: -1rem; margin-bottom:0.5rem">
+                        <label>Title</label>
+                        <input 
+                            class="form-control {% if form.title.errors %}is-invalid{% endif %}" 
+                            type="text" 
+                            name="title" 
+                            placeholder="title"
+                            value="{% if form.errors %}{{ form.title.value }}{% else %}{{ post.title }}{% endif %}"
+                        />
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block mt-0">Update post</button>
+                </form>
+                <a
+                    href="{% url "users:detail" post.user.username %}"
+                    class="mt-1 btn btn-sm btn-outline-info"
+                    style="width: 100%;"
+                >
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

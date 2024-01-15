@@ -4,7 +4,7 @@
 from django.contrib.auth.decorators import login_required # Decorador para mostrar contenido si estamos logeados.
 from django.shortcuts import render, redirect #Ahora si utilizaremos render
 from django.contrib.auth.mixins import LoginRequiredMixin # Modulo para asefurar las classes de vistas.
-from django.views.generic import CreateView, DetailView, ListView # Se utiliza para crear vistas que rendericen una lista de objetos desde una base de datos, como por ejemplo, mostrar una lista de usuarios, publicaciones de un blog
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView # Se utiliza para crear vistas que rendericen una lista de objetos desde una base de datos, como por ejemplo, mostrar una lista de usuarios, publicaciones de un blog
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -45,7 +45,7 @@ class PostsFeedView(LoginRequiredMixin, ListView):  # Clase para la paginacion.
         comment_counts = {}
         for post in context['post']:
             comments = Comment.objects.filter(post=post)
-            comment_counts[post.user.username] = comments.count()
+            comment_counts[post.id] = comments.count()
         
         print(comment_counts)
         context['comment_counts'] = comment_counts
@@ -54,14 +54,13 @@ class PostsFeedView(LoginRequiredMixin, ListView):  # Clase para la paginacion.
 
         return context
 
-
-
 class PostDetailView(LoginRequiredMixin, DetailView):
     """Return detail posts."""
     template_name = 'posts/detail.html'
     queryset = Post.objects.all()
     context_object_name = 'post'
-    
+    slug_field = 'pk' # Actua como una PK ya que no hay usuarios repetidos.
+    slug_url_kwarg = 'pk' # Es el valor que se le agergará en cada campo al buscar un perfil.
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +81,6 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         #print(type(profiles))
         # Agregar los datos de Like al contexto
         context['liked_posts'] = liked_posts
-        context['comment']= comment
         context['comment_form'] = CommentForm(initial={'user': self.request.user})
         context['comment'] = comment
         context['comment_count'] = comment.count()
@@ -109,7 +107,45 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         context['comment_form'] = comment_form
         
         return render(request, 'post/detail.html', context )
+ 
+class DeleteCommentView(LoginRequiredMixin,DeleteView):
+    model = Comment
+    template_name = 'posts/delete_comment.html'
+ 
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('posts:detailPost', kwargs={'pk': pk})
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs['pk']
+        id = self.kwargs['id']
+        #print(pk)
+        #print(id)
+        comment = Comment.objects.get(post=pk, id=id)
+        return comment
+ 
+class UpdateCommentView(LoginRequiredMixin, UpdateView):
+    """Update comment view."""
+    template_name = 'posts/update_comment.html'
+    model = Comment
+    fields = ['body']
     
+    def get_object(self, queryset=None):
+        post_pk = self.kwargs.get('post_pk')
+        comments_id = self.kwargs.get('comments_id')
+        post = Post.objects.get(id=post_pk)
+        comment = Comment.objects.get(post=post, id=comments_id)
+        return comment
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_pk = self.kwargs.get('post_pk')
+        context['post'] = Post.objects.get(id=post_pk)
+        return context
+    
+    def get_success_url(self):
+        post_pk = self.kwargs['post_pk']
+        return reverse('posts:detailPost', kwargs={'pk': post_pk})
     
 class CreatePostView(LoginRequiredMixin,CreateView):
     """Create a new post."""
@@ -124,6 +160,41 @@ class CreatePostView(LoginRequiredMixin,CreateView):
         context["profile"] = self.request.user.profile
         return context
 
+class UpdatePostView(LoginRequiredMixin, UpdateView):
+    """Update profile view."""
+    template_name = 'posts/update_posts.html'
+    model = Post
+    fields = ['photo', 'title']
+    
+    def get_object(self, queryset = None):
+        post_id = self.kwargs.get('post_id')
+        return get_object_or_404(Post, pk=post_id, user=self.request.user)
+    
+    def get_success_url(self):
+        """Creamos la "URL" con el nombre de usuario obtenido en la  linea anterior."""
+        post_id = self.object.id
+        return reverse('posts:postUpdate', kwargs={'post_id': post_id})
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'posts/delete_post.html'
+    model = Post
+    success_url = reverse_lazy('users:detail')
+    slug_field = 'pk' 
+    slug_url_kwarg = 'pk'
+    
+    def get_queryset(self):
+        # Filtra los posts solo del usuario actual
+        return Post.objects.filter(user=self.request.user)
+        
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse_lazy('users:detail', kwargs={'username': username})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Agrega cualquier contexto adicional que necesites
+        return context
+  
 @login_required
 def LikesView(request, post_id):
     user = request.user #Identificamos al usuario actual.
@@ -147,6 +218,6 @@ def LikesView(request, post_id):
     return  HttpResponseRedirect(reverse('posts:feed'))
     # return  HttpResponseRedirect(reverse('posts:detailPost', args=[post_id]))
         
-
+        
      
     
