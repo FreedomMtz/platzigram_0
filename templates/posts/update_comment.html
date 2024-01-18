@@ -23,24 +23,26 @@
                         </ul>
                     {% endif %}
                     
-                    <div class='row justify-content-md-center '>
-                        <a href="{% url "users:detail" post.user.username %}">
-                            {% if post.profile.picture %}
+                    <div class='justify-content-md-center'>
+                        <div class="d-flex align-items-center" style="margin-top:-1rem;">
+                            <a href="{% url "users:detail" post.user.username %}">
+                                {% if post.profile.picture %}
                                 <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
-                            {% else %}
+                                {% else %}
                                 <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
-                            {% endif %}
-                            
-                        </a>
-                        <div class="media-body">
-                            <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
+                                {% endif %}
+                                
+                            </a>
+                            <div class="media-body">
+                                <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
+                            </div>
                         </div>
-                        <img src="{{ post.photo.url }}" class="img-fluid mb-2 justify-content-between"  style="width: 350px; height: 320px; object-fit: cover;"/>
+                        <img src="{{ post.photo.url }}" class="img-fluid mb-2 justify-content-between"  style="width: 100%; height: 400px; object-fit: cover;"/>
                     </div>
                     <hr>
                     {# Body field. #}
                     <div class="form-group" style="margin-top: -1rem; margin-bottom:0.5rem">
-                        <label>Edit your comment:</label>
+                        <strong>Edit your comment:</strong>
                         <input 
                             class="form-control {% if form.body.errors %}is-invalid{% endif %}" 
                             type="text" 

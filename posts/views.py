@@ -29,7 +29,9 @@ class PostsFeedView(LoginRequiredMixin, ListView):  # Clase para la paginacion.
     paginate_by = 20
     context_object_name = 'post'
     
+    
     def get_context_data(self, **kwargs):
+        
         context = super().get_context_data(**kwargs)
         
         # Obtener datos de otro modelo (en este caso, Like)
@@ -47,10 +49,10 @@ class PostsFeedView(LoginRequiredMixin, ListView):  # Clase para la paginacion.
             comments = Comment.objects.filter(post=post)
             comment_counts[post.id] = comments.count()
         
-        print(comment_counts)
+        #print(comment_counts)
         context['comment_counts'] = comment_counts
         context['liked_posts'] = liked_posts #Esto es para saber si el usuario actual ya dio like
-        
+        context['unread_notifi'] = self.request.unread_notifi
 
         return context
 
@@ -85,6 +87,7 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         context['comment'] = comment
         context['comment_count'] = comment.count()
         context['users_filter'] = users_filter
+        context['unread_notifi'] = self.request.unread_notifi
 
         return context
 
@@ -123,6 +126,11 @@ class DeleteCommentView(LoginRequiredMixin,DeleteView):
         #print(id)
         comment = Comment.objects.get(post=pk, id=id)
         return comment
+    def get_context_data(self, **kwargs):
+        """Add user's posts to context."""
+        context = super().get_context_data(**kwargs)
+        context['unread_notifi'] = self.request.unread_notifi
+        return context
  
 class UpdateCommentView(LoginRequiredMixin, UpdateView):
     """Update comment view."""
@@ -141,6 +149,7 @@ class UpdateCommentView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         post_pk = self.kwargs.get('post_pk')
         context['post'] = Post.objects.get(id=post_pk)
+        context['unread_notifi'] = self.request.unread_notifi
         return context
     
     def get_success_url(self):
@@ -158,6 +167,7 @@ class CreatePostView(LoginRequiredMixin,CreateView):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
         context["profile"] = self.request.user.profile
+        context['unread_notifi'] = self.request.unread_notifi
         return context
 
 class UpdatePostView(LoginRequiredMixin, UpdateView):
@@ -173,8 +183,13 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         """Creamos la "URL" con el nombre de usuario obtenido en la  linea anterior."""
         post_id = self.object.id
-        return reverse('posts:postUpdate', kwargs={'post_id': post_id})
-
+        return reverse('posts:postUpdate', kwargs={'post_id': post_id},)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unread_notifi'] = self.request.unread_notifi
+        return context
+    
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'posts/delete_post.html'
     model = Post
@@ -193,6 +208,8 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Agrega cualquier contexto adicional que necesites
+        context['unread_notifi'] = self.request.unread_notifi
+       
         return context
   
 @login_required

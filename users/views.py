@@ -62,7 +62,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['following_count'] = Follow.objects.filter(follower=user).count()
         context['followers_count'] = Follow.objects.filter(following=user).count()
         context['following_update'] = Follow.objects.filter(follower= follower, following=user).count()
-
+        context['unread_notifi'] = self.request.unread_notifi
         return context 
     
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
@@ -79,20 +79,26 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         """Creamos la "URL" con el nombre de usuario obtenido en la  linea anterior."""
         username = self.object.user.username
         return reverse('users:detail', kwargs={'username': username})
+    def get_context_data(self, **kwargs):
+        """Add user's posts to context."""
+        context = super().get_context_data(**kwargs)
+        context['unread_notifi'] = self.request.unread_notifi
+        return context 
  
 @login_required
 #@override_settings(MIDDLEWARE=['platzigram.middleware.ProfileCompletionMiddlewere'])
 def delete_user(request):
     user = request.user
-    print("eliminacion de perfil1")
+    #print("eliminacion de perfil1")
     if request.method == 'POST':
         # Eliminar el usuario y cerrar la sesión
-        print("eliminacion de perfil2")
+        #print("eliminacion de perfil2")
         user.delete()
         logout(request)
         #messages.success(request, 'Tu cuenta ha sido eliminada exitosamente.')
         return redirect('users:login')  # Reemplaza con tu URL de inicio
-    return render(request, 'users/delete_user.html')
+    context = {'unread_notifi': request.unread_notifi}
+    return render(request, 'users/delete_user.html', context)
  
 @login_required
 def delete_picture(request):
@@ -105,8 +111,9 @@ def delete_picture(request):
             #print("bander2")
         return redirect("users:update")
     #print("bander3")
-
-    return render(request, 'users/delete_picture.html')
+    context = {'unread_notifi': request.unread_notifi}
+    
+    return render(request, 'users/delete_picture.html', context)
    
 class SignUpView(FormView):
     """Users sign up. Utilizando "FromView" """
@@ -179,12 +186,19 @@ class FollowerView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         
+        #Utilizando related_name
+        #followers = user.following.all()
+        #followersname = [name.follower.username for name in followers]
+        #followersname = sorted(followersname)
+        #print(followersname)
+        
+        #Sin utilizar related_name
         followers_filter_names = Follow.objects.filter(following=user) #Filtramos para buscar quienes siguen a nuestro usuario actual
         followers_names = [names.follower.username for names in followers_filter_names]
         followers_names = sorted(followers_names)
         
         users_filter = User.objects.filter(username__in=followers_names) #Obtenemos los modelos con la lista obtenida anteriormente.
-       
+        #print(users_filter)
         context['users_filter'] = users_filter
 
         return context 

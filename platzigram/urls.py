@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include(('posts.urls','posts'), namespace='posts')), # En la tupla incluimos al modulo "posts.urls" y la app "posts".
     path('users/', include(('users.urls','users'), namespace='users')), # En la tupla incluimos al modulo "users.urls" y la app "users".
     path('comment/', include(('comment.urls','comment'), namespace='comment')), # En la tupla incluimos al modulo "comment.urls" y la app "comment".
+    path('message/', include(('directs.urls','directs'), namespace='directs')), # En la tupla incluimos al modulo "directs.urls" y la app "directs".
     
     
     #Password reset

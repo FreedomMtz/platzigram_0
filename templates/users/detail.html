@@ -5,15 +5,6 @@
 {% block head_content %}
 <title>@{{ user.username }} | Platzigram</title>
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<!-- Font Awesome CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-<!-- jQuery y Popper.js -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 {% endblock %}
 
@@ -55,6 +46,14 @@
                                 Follow
                             </a>
                         {% endif %}    
+                    {% endif %}
+                    {% if user != request.user %}       
+                        <a
+                            href="{% url "directs:newMessage" user.username %}"
+                            class="ml-5 btn btn-sm btn-outline-info"
+                        >
+                            Message
+                        </a>
                     {% endif %}
                 </h3>
                 <div class="row mt-2" style="font-size: 1.2em">

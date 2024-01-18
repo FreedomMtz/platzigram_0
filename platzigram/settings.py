@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'posts',
     'users',
     'comment',
+    'directs',
+    
  
     
 ]
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'platzigram.middleware.ProfileCompletionMiddlewere',
+    'platzigram.middleware.NotificationMiddleware',
 ]
 
 ROOT_URLCONF = 'platzigram.urls'

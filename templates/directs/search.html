@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_content %}
+<title>@{{ user.username }} | Platzigram</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
+<link rel="stylesheet" href="{% static 'assets2/style.css' %}">
+{% endblock %}
+
+{% block container %}
+  <div id="wrapper">
+    <div class="container mt-5 d-flex justify-content-center ">
+      <div class="phone-app-ddemo"></div>
+      <div class="form-data">
+        
+        <form action="" method="GET">
+            <div class="headedr__search">
+                <input type="text" placeholder="Search" name="q" value="{{ request.GET.q }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+                
+            </div>
+        </form>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+          <div class="logo">
+            <h3 style="padding-top: 5px; font-size: 20px;">Search Results</h3>
+          </div>
+
+        {% for user in users %}
+            {% if  user != request.user%}
+            <div class="side-menu__user-profile d-flex align-items-center justify-content-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px;">
+                <a href=" {% url 'users:detail' user.username %} " class="side-menu__user-avatar">
+                    {% if user.profile.picture %}
+                        <img src="{{ user.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                    {% else %}
+                        <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                                
+                    {% endif %}
+                </a>
+                <div class="side-menu__user-idnfo ml-1">
+                    {% if user.profile.first_name %}
+                    <a href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.profile.first_name|title }} {{user.profile.last_name|title }}</a>
+                    {% else%}
+                    <strong href="">Instagram User</strong>
+
+                    {% endif %}
+                    <br>
+                    <span style="font-size: 14px;">@{{user.username}}</span>
+                    <br>
+                    <a href="{% url 'users:detail' user.username %}" {#style="color: blue;"#} class="btn btn-sm btn-outline-info">View Profile</a>
+                    <br>
+                    <a
+                        href="{% url "directs:newMessage" user.username %}"
+                        class="btn btn-sm btn-outline-info mt-1"
+                    >
+                        New message
+                    </a>
+
+                </div>
+            </div>
+            <!-- <hr> -->
+            {% endif %}
+        {% endfor %}
+        
+          
+        </form>
+        
+      </div>
+    </div>
+    
+
+    <footer class="footer mt-auto py-2">
+        <div class="container text-center" style="margin-top:26rem;">
+            <span class="text-muted">© 2024 Instagreeem</span>
+        </div>
+    </footer>
+ 
+  </div>
+
+{% endblock container %}

@@ -22,27 +22,49 @@
                 </div>
             </div>
             <hr>
-            <div class='container'>
-                <p class="row">Following:<br></p>
-                {% for users in users_filter %}
-                    <div class="col-md-6">
-                        <ul>
-                            <a href="{% url "users:detail" users.username %}"> 
-                                <li >
-                                    {% if users.profile.picture %}
-                                        <img src="{{ users.profile.picture.url }}" class="rounded-circle" height="50"/>
-                                    {% else %}
-                                        <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50"/>
+            <strong>Following:</strong>
+                <div id="wrapper">
+                    <div class="container mt-0 d-flex justify-content-center ">
+                        <div class="phone-app-ddemo"></div>
+                            <div class="form-data">
+                                {% for user in users_filter %}
+                                    {% if  user != request.user%}
+                                        <div class="side-menu__user-profile d-flex align-items-center justify-content-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px;">
+                                            <a href=" {% url 'users:detail' user.username %} " class="side-menu__user-avatar">
+                                            {% if user.profile.picture %}
+                                                <img src="{{ user.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                                            {% else %}
+                                                <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                                                        
+                                            {% endif %}
+                                            </a>
+                                            <div class="side-menu__user-idnfo ml-1">
+                                                {% if user.profile.first_name %}
+                                                    <a href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.profile.first_name|title }} {{user.profile.last_name|title }}</a>
+                                                {% else%}
+                                                <strong href="">Instagram User</strong>
+                                                {% endif %}
+                                                <br>
+                                                <span style="font-size: 14px;">@{{user.username}}</span>
+                                                <br>
+                                                <a href="{% url 'users:detail' user.username %}" {#style="color: blue;"#} class="btn btn-sm btn-outline-info">View Profile</a>
+                                                <br>
+                                                <a
+                                                    href="{% url "directs:newMessage" user.username %}"
+                                                    class="btn btn-sm btn-outline-info mt-1"
+                                                >
+                                                    New message
+                                                </a>
+                                            </div>
+                                        </div>
+                            <!-- <hr> -->
                                     {% endif %}
-                                    
-                                    @{{users}}
-                                </li>
-                            </a>
-                        </ul>
-                    </div>    
-                {% endfor %}
-                    
-            </div>
+                                {% endfor %} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
 </div>
 {% endblock %}
