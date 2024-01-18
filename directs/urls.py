@@ -33,10 +33,16 @@ urlpatterns = [
         name='userSearch'
     ), # Agregaremos una vista de la app "directs" para buscar un usuario
     
-     path(
+    path(
         route='new/<str:username>', 
         view=views.NewMessage, 
         name='newMessage'
     ), # Agregaremos una vista de la app "directs" para crear un nuevo mensajes
+    
+    path(
+        route='delete/<str:username>', 
+        view=views.DeleteMessage, 
+        name='deleteMessage'
+    ), # Agregaremos una vista de la app "directs" para eliminar conversacion actual.
     
 ]

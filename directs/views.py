@@ -113,3 +113,22 @@ def NewMessage(request, username):
     redirect_url = reverse('directs:direct', args=[to_user])
     context = {'unread_notifi': request.unread_notifi}
     return redirect(redirect_url, context)
+
+@login_required
+def DeleteMessage(request, username):
+    user = request.user
+    #print("eliminacion de perfil1")
+    reciepient = User.objects.get(username=username)
+    if request.method == 'POST':
+        print(user)
+        print(reciepient)
+        messages = Message.objects.filter(user=user, reciepient=reciepient)
+        
+        messages.delete()
+        print("Mensajes eliminados correctamente")
+        return redirect('directs:message')  # Reemplaza con tu URL de inicio
+    context = {
+        'unread_notifi': request.unread_notifi,
+        'recipient': reciepient
+        }
+    return render(request, 'directs/delete_message.html', context)
