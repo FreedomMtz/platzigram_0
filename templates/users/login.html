@@ -5,12 +5,11 @@
 {% endblock  %}
 
 {% block container %}
-
     {% if form.errors %}
         <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
     {% endif  %}
-
     <form method="POST" action="{% url "users:login" %}">
+        
         {% csrf_token %}
         <div class="form-group">
             <input class="form-control mb-2" type="text" placeholder="Username" name="username" />
@@ -22,10 +21,6 @@
 
     </form>
     <p class="mt-4">Don't have an account yet?<a href="{% url "users:signup" %}"> Sign up here.</a></p>
-    <!-- signup.html -->
     <p>Forgot your password? <a href="{% url 'password_reset' %}">Reset it here.</a></p>
-    <!-- Resto del contenido del formulario de registro -->
-
-
     
 {% endblock  %}

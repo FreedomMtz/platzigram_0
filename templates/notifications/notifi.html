@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% load humanize %}
 
@@ -9,125 +8,114 @@
     {% comment %} <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% endcomment %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    rel="stylesheet">
 {% endblock  %}
 
 {% block container %}
-
 <div id="wrapper">
     <div class="container mt-0 d-flex justify-content-center ">  
         <div class="form-data">
-    
-    {% for notification in notifications %}
-        {% if  notification.sender != request.user%}
-
-        {% if notification.notification_type == 2 %}
-        <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
-                <a href="" class="delete"></a>
-                <article class="media">
-                    <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
-                        {% if notification.sender.profile.picture %}
-                            <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
-                        {% else %}
-                            <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
-                                                    
-                        {% endif %}
-                    </a>
-                    <div class="media-content ml-2 mt-1">
-                        <div class="d-flex">
-                            <div class=" row">   
-                                <strong>{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
-                                <br>
-                                <p><i class="fa-solid fa-comment-dots" style="color:#e27396;"></i> Commented: {{ notification.text_preview }}</p>
-                                <strong><small>{{ notification.date|naturaltime }}</small></strong>
+        {% for notification in notifications %}
+            {% if  notification.sender != request.user%}
+                {% if notification.notification_type == 2 %}
+                <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
+                    <a href="" class="delete"></a>
+                    <article class="media">
+                        <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
+                            {% if notification.sender.profile.picture %}
+                                <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                            {% else %}
+                                <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                                        
+                            {% endif %}
+                        </a>
+                        <div class="media-content ml-2 mt-1">
+                            <div class="d-flex">
+                                <div class=" row">   
+                                    <strong>{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
+                                    <br>
+                                    <p><i class="fa-solid fa-comment-dots" style="color:#e27396;"></i> Commented: {{ notification.text_preview }}</p>
+                                    <strong><small>{{ notification.date|naturaltime }}</small></strong>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <a href=" {% url "posts:detailPost" notification.post.id %} " class="side-menu__user-avatar ml-1 mt-2">
-                        <img class="card rounded rounded-2" src="{{ notification.post.photo.url }}"  class="" width="100px" height="100px">
-                    </a>
-                    <a href="{% url "notifications:deleteNotifi" notification.id %}">
-                        <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
-                    </a>
-                </article>
-            </div>
-        {% endif %}
-
-
-        {% if notification.notification_type == 3 %}
-        <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
-                <a href="" class="delete"></a>
-                <article class="media">
-                    <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
-                        {% if notification.sender.profile.picture %}
-                            <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
-                        {% else %}
-                            <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
-                                                    
-                        {% endif %}
-                    </a>
-                    <div class="media-content ml-2 mt-1">
-                        <div class="d-flex">
-                            <div class=" row">
-                                <strong>{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
-                                <br>
-                                <p><i class="fa-solid fa-user-plus" style="color: #809bce;"></i> Followed you!</p>
-                                <strong><small>{{ notification.date|naturaltime }}</small></strong>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{% url "notifications:deleteNotifi" notification.id %}">
-                        <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
-                    </a>
-                </article>
-            </div>
-        {% endif %}
-
-
-        <!-- FOR LIKE -->
-        {% if notification.notification_type == 1 %}
-            <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
-                <a href="{% comment %} {% url 'delete-notification' notification.id %} {% endcomment %}" class="delete"></a>
-                <article class="media">
-                    <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
-                        {% if notification.sender.profile.picture %}
-                            <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
-                        {% else %}
-                            <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
-                                                    
-                        {% endif %}
-                    </a>
-                    
-                    <div class="media-content ml-2 mt-1">
-                        <div class="d-flex" >
-                            <div class=" row">
-                                <strong class="d-flex align-items-center">{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
-                                <br>
-                                <p><i class="fas fa-heart text-danger mb-0" ></i> Liked your post "{{notification.post.title}}"</p>
-                                <strong><small>{{ notification.date|naturaltime }}</small></strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href=" {% url "posts:detailPost" notification.post.id %} " class="side-menu__user-avatar ml-1 mt-2">
+                        </div> 
+                        <a href=" {% url "posts:detailPost" notification.post.id %} " class="side-menu__user-avatar ml-1 mt-2">
                             <img class="card rounded rounded-2" src="{{ notification.post.photo.url }}"  class="" width="100px" height="100px">
-                    </a>
-                    <a href="{% url "notifications:deleteNotifi" notification.id %}">
-                        <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
-                    </a>
-                    
-                </article>
+                        </a>
+                        <a href="{% url "notifications:deleteNotifi" notification.id %}">
+                            <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
+                        </a>
+                    </article>
+                </div>
+                {% endif %}
 
-            </div>
-    
-        {% endif %}
+                {% if notification.notification_type == 3 %}
+                <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
+                    <a href="" class="delete"></a>
+                    <article class="media">
+                        <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
+                            {% if notification.sender.profile.picture %}
+                                <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                            {% else %}
+                                <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                                        
+                            {% endif %}
+                        </a>
+                        <div class="media-content ml-2 mt-1">
+                            <div class="d-flex">
+                                <div class=" row">
+                                    <strong>{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
+                                    <br>
+                                    <p><i class="fa-solid fa-user-plus" style="color: #809bce;"></i> Followed you!</p>
+                                    <strong><small>{{ notification.date|naturaltime }}</small></strong>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url "notifications:deleteNotifi" notification.id %}">
+                            <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
+                        </a>
+                    </article>
+                </div>
+                {% endif %}
 
-        {% endif %}
-    {% endfor %}
-</div>
-</div>
-</div>
+                <!-- FOR LIKE -->
+                {% if notification.notification_type == 1 %}
+                    <div class="side-menu__user-profile d-flex align-items-center justify-items-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:40vw; height:20vh;">
+                        <a href="{% comment %} {% url 'delete-notification' notification.id %} {% endcomment %}" class="delete"></a>
+                        <article class="media">
+                            <a href=" {% url 'users:detail' notification.sender.username %} " class="side-menu__user-avatar ml-1 mt-2">
+                                {% if notification.sender.profile.picture %}
+                                    <img src="{{ notification.sender.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                                {% else %}
+                                    <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                                            
+                                {% endif %}
+                            </a>
+                            
+                            <div class="media-content ml-2 mt-1">
+                                <div class="d-flex" >
+                                    <div class=" row">
+                                        <strong class="d-flex align-items-center">{{ notification.sender.first_name }} {{ notification.sender.last_name }}</strong> <small>@{{ notification.sender.username }}</small> 
+                                        <br>
+                                        <p><i class="fas fa-heart text-danger mb-0" ></i> Liked your post "{{notification.post.title}}"</p>
+                                        <strong><small>{{ notification.date|naturaltime }}</small></strong>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <a href=" {% url "posts:detailPost" notification.post.id %} " class="side-menu__user-avatar ml-1 mt-2">
+                                    <img class="card rounded rounded-2" src="{{ notification.post.photo.url }}"  class="" width="100px" height="100px">
+                            </a>
+                            <a href="{% url "notifications:deleteNotifi" notification.id %}">
+                                <i class="fa-solid fa-trash-can ml-1" style="color:#e27396;"></i>
+                            </a>
+                        </article>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

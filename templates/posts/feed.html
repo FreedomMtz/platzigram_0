@@ -1,6 +1,5 @@
 {% extends "base.html" %} {% comment %} Aqui especificamos de que template heredará los elementos 
 e inyectará lo definido en este apartado, como si tomara una plantilla para renderizar. {% endcomment %}
-
 {% load static %}
 
 
@@ -12,20 +11,16 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
 {% block container %} {% comment %} Apartado para desplegar los posts creados por los usuarios. {% endcomment %}
     <div class="container col-sm-12 col-md-6"> {% comment %} las "class" es sintaxis de "BOOTSTRAP", {% endcomment %}
         <div class="row d-flex justify-content-center ">
-            {% for post in post %}
-                
+            {% for post in post %}  
                 <div class="d-block col-sm-12 col-md-10 post-container ">
-                    <div class="media pt-3 pl-3 pb-1">
-                        
+                    <div class="media pt-3 pl-3 pb-1"> 
                         <a href="{% url "users:detail" post.user.username %}">
                             {% if post.profile.picture %}
                                 <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
                             {% else %}
                                 <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
                             {% endif %}
-                            
                         </a>
-                        
                         <div class="media-body">
                             <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
                         </div>
@@ -33,7 +28,6 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
                     <a href="{% url "posts:detailPost" post.id %}">
                         <img  style="width: 100%; height: 400px; object-fit: cover;" src="{{ post.photo.url }}" alt="{{ post.title }}">
                     </a>
-                    {#<h6 class="ml-1 mt-1">{{ post.title }}</h6> #}
                     <p class="mt-1 mb-1 ml-2">
                         <a href="{% url "posts:postLike" post.id %}" class="text-decoration-none" style="color: #000; font-size: 30px;">
                             {% if post.id in liked_posts %}
@@ -43,7 +37,6 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
                             {% endif %}
                             <i class="bi bi-check-circle"></i> 
                         </a> 
-                        
                         <!-- Icono de mensaje -->
                         <a href="{% url "posts:detailPost" post.id %}">
                             <i class="fa-regular fa-comment ml-2" style="color: #000; font-size: 30px;"></i>
@@ -51,7 +44,6 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
                     </p>
                     <strong class="ml-2">{{post.likes}} {% if post.likes != 1  %}likes{%else%}like{% endif %} </strong>
                     {% with username=post.user.username %}
-    
                     {% for key, value in comment_counts.items %}
                         {% if post.id == key %}
                             {#{{ key }} :#} <strong class="ml-2">{{value}}</strong>
@@ -65,25 +57,17 @@ e inyectará lo definido en este apartado, como si tomara una plantilla para ren
                                     Post comment...
                                 </a> 
                             {% endif %}
-
                         {%endif%}
-
-
                     {% endfor %}
                     {% endwith %}
-                   
                     <p class="ml-2 mt-0 mb-2">
                         <strong>@{{post.user.username}}</strong>-<h7>{{post.title}}</h7> - <small>{{post.created}}</small>
                     </p>
-                
                 </div>
-                
             {% endfor %}
         </div>
     </div>
-
     {% include "pagination.html" %}
-
 {% endblock %}
 
 

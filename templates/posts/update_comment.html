@@ -3,35 +3,31 @@
 
 {% block head_content %}
     <title>@{{ request.user.username }} | Update comment</title>
+    
 {% endblock  %}
 
 {% block container %}
-
     <div class="container col-sm-12 col-md-10">
-
         <div class="row justify-content-md-center" style="margin-top: -1em;">
             <div class="col-6 p-4" id="profile-box">
-
                 <form action= "" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
 
+                    {% csrf_token %}
                     {% if messages %}
                         <ul class="messages list-unstyled">
                             {% for message in messages %}
                                 <li  {% if message.tags %} class="alert alert-success {{ message.tags }} " {% endif %}> {{ message }} </li>
                             {% endfor %}
                         </ul>
-                    {% endif %}
-                    
+                    {% endif %}                    
                     <div class='justify-content-md-center'>
                         <div class="d-flex align-items-center" style="margin-top:-1rem;">
                             <a href="{% url "users:detail" post.user.username %}">
                                 {% if post.profile.picture %}
-                                <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
+                                    <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}" >
                                 {% else %}
-                                <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
-                                {% endif %}
-                                
+                                    <img class="mr-3 rounded-circle" height="35" src="{% static 'img/default-profile.png' %}" alt="{{ post.user.get_full_name }}" >
+                                {% endif %}    
                             </a>
                             <div class="media-body">
                                 <p style="margin-top:5px;">{{ post.user.get_full_name }}</p>
@@ -55,10 +51,9 @@
                                 {{ error }}
                             {% endfor %}
                         </div>
-
                     </div>
-                    
                     <button type="submit" class="btn btn-primary btn-block mt-0">Update comment</button>
+                
                 </form>
                 <a
                     href="{% url 'posts:detailPost' post.id%}"

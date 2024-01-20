@@ -15,88 +15,75 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
 {% endblock%}
 
-<!DOCTYPE html>
-
 {% block container %}
-<div class="container col-sm-12 col-md-6">
-    <div class="d-flex justify-content-center align-items-center">
-        {% include "posts/posts_card.html" %}
-    </div>
-    <form class="bg-white container col-sm-12 col-md-10 pt-3 pb-3" style="margin-bottom: 1rem; margin-top: 1rem;" method="POST">
-        {% csrf_token %}
-        
-        <div class=" bg-white row justify-content-center align-items-center  bg-light pb-2 pt-2 ">
-            
-            <div class="d-flex flex-row align-items-start mr-2">
-                <img class="rounded-circle mr-2" src="{{request.user.profile.picture.url}}" width="30" height="30" >
-                <div>
-                    {{ comment_form.body }}
-                </div>   
-            </div>
-            <div class="d-flex align-items-endblock mt-2">
-                <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
-            </div>
-           
+    <div class="container col-sm-12 col-md-6">
+        <div class="d-flex justify-content-center align-items-center">
+            {% include "posts/posts_card.html" %}
         </div>
-    </form>
-   
 
-    {% for comments in comment %}
-        <div class="bg-white container col-sm-12 col-md-10">
-            <div class="d-flex flex-row user-info">
-                {% for users in users_filter %}
-                    {% if users.username == comments.user.username%}
-                        <img class="rounded-circle mr-2" src="{{users.profile.picture.url}}" width="30" height="30" >                                    
-                    {% endif %}
-                
-                {% endfor %}
-                <a href="{% url 'users:detail' comments.user.username %}" style="text-decoration: none;">
-                    <div class="d-flex flex-column justify-content-start ml-2">
-                        <span class="d-block font-weight-bold name">{{comments.user.username}}</span>
-                        <span class="date text-black-50"> {{comments.date}}</span>
-                    </div>
-                </a>
+        <form class="bg-white container col-sm-12 col-md-10 pt-3 pb-3" style="margin-bottom: 1rem; margin-top: 1rem;" method="POST">
+            {% csrf_token %}
+            <div class=" bg-white row justify-content-center align-items-center  bg-light pb-2 pt-2 ">
+                <div class="d-flex flex-row align-items-start mr-2">
+                    <img class="rounded-circle mr-2" src="{{request.user.profile.picture.url}}" width="30" height="30" >
+                    <div>
+                        {{ comment_form.body }}
+                    </div>   
+                </div>
+                <div class="d-flex align-items-endblock mt-2">
+                    <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                </div>
             </div>
-            <div class="mt-2 mb-2 d-flex justify-content-between ">
-                <p class="comment-text">{{ comments.body }}</p>
-                {% if user == comments.user%}
-                        <ul class="navbar-nav ">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h" style="color: gray;"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{% url 'posts:commentUpdate' post.pk comments.pk %}">Edit</a>
-                                    <a class="dropdown-item" href="{% url 'posts:commentDelete' post.pk comments.pk %}">Delete</a>
-                                </div>
-                            </li>
-                        </ul>
-                {% endif %}
-                {% if user == post.user and not user == comments.user%}
-                        <ul class="navbar-nav ">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h" style="color: gray;"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{% url 'posts:commentDelete' post.id comments.id %}">Delete</a>
-                                </div>
-                            </li>
-                        </ul>
-                {% endif %}
-                
-                
-            </div>
-        </div>
-    {% endfor %}
-
+        </form>
     
-
-
-
-</div>
+        {% for comments in comment %}
+            <div class="bg-white container col-sm-12 col-md-10">
+                <div class="d-flex flex-row user-info">
+                    {% for users in users_filter %}
+                        {% if users.username == comments.user.username%}
+                            <img class="rounded-circle mr-2" src="{{users.profile.picture.url}}" width="30" height="30" >                                    
+                        {% endif %}
+                    
+                    {% endfor %}
+                    <a href="{% url 'users:detail' comments.user.username %}" style="text-decoration: none;">
+                        <div class="d-flex flex-column justify-content-start ml-2">
+                            <span class="d-block font-weight-bold name">{{comments.user.username}}</span>
+                            <span class="date text-black-50"> {{comments.date}}</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="mt-2 mb-2 d-flex justify-content-between ">
+                    <p class="comment-text">{{ comments.body }}</p>
+                    {% if user == comments.user%}
+                            <ul class="navbar-nav ">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'posts:commentUpdate' post.pk comments.pk %}">Edit</a>
+                                        <a class="dropdown-item" href="{% url 'posts:commentDelete' post.pk comments.pk %}">Delete</a>
+                                    </div>
+                                </li>
+                            </ul>
+                    {% endif %}
+                    {% if user == post.user and not user == comments.user%}
+                            <ul class="navbar-nav ">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link p-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h" style="color: gray;"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'posts:commentDelete' post.id comments.id %}">Delete</a>
+                                    </div>
+                                </li>
+                            </ul>
+                    {% endif %} 
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

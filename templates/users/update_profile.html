@@ -6,16 +6,12 @@
 {% endblock  %}
 
 {% block container %}
-
     <div class="container">
-
         <div class="row justify-content-md-center" style="margin-top: -1em;">
             <div class="col-6 p-4 " id="profile-box">
-
                 <form action= "{% url 'users:update' %}" method="POST" enctype="multipart/form-data">
+                    
                     {% csrf_token %}
-
-
                     {% if messages %}
                         <ul class="messages list-unstyled">
                             {% for message in messages %}
@@ -23,15 +19,12 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    
                     <div class='media'>
-                        
                         {% if profile.picture %}
                             <img src="{{ profile.picture.url }}" class="rounded-circle" height="50"/>
                         {% else %}
                             <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50"/>
                         {% endif %}
-                        
                         <div class="media-body">
                             <h5 class="ml-4">@{{ user.username }} | {{user.get_full_name}}</h5>
                             <p class="ml-4">
@@ -48,10 +41,7 @@
                             <strong>Picture: </strong>{{ error }}
                         </div>
                     {% endfor %}
-
                     <hr>
-
-
                     {# Website field. #}
                     <div class="form-group">
                         <label>Website</label>
@@ -67,9 +57,7 @@
                                 {{ error }}
                             {% endfor %}
                         </div>
-
                     </div>
-                    
                     {# Biography field. #}
                     <div class="form-group">
                         <label>Biography</label>
@@ -78,15 +66,12 @@
                             name="biography"
                             >{% if form.errors %}{{form.biography.value}}{% else %}{{ profile.biography }}{% endif %}
                         </textarea>
-
                         <div class="invalid-feedback">
                             {% for error in form.biography.errors %}
                                 {{ error }}
                             {% endfor %}
                         </div>
                     </div>
-
-
                     {# Phone number field. #}
                     <div class="form-group">
                         <label>Phone number</label>
@@ -102,14 +87,12 @@
                                 {{ error }}
                             {% endfor %}
                         </div>
-
                     </div>
                     <div class="row justify-content-md-center">
                         <button type="submit" class="btn btn-primary btn-block mt-3">Update info</button>
                         <a class=" mt-1 btn btn-primary btn-danger" href="{% url "users:deleteUser"%}">Delete profile.</a>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

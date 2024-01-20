@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block head_content %}
-<title>@{{ user.username }} | Search</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
-<link rel="stylesheet" href="{% static 'assets2/style.css' %}">
+  <title>@{{ user.username }} | Search</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
+  <link rel="stylesheet" href="{% static 'assets2/style.css' %}">
 {% endblock %}
 
 {% block container %}
@@ -15,9 +15,10 @@
     <div class="container mt-5  d-flex justify-content-center ">
       <div class="phone-app-ddemo"></div>
         <div class="form-data ">
+
           <form action="" method="GET">
             <div class="headedr__search" style="margin-left:2rem;">
-                <input type="text" placeholder="Search" name="q" value="{{ request.GET.q }}">
+                <input type="text" placeholder="Search" name="q" value="{{ request.GET.q }}" required>
                 <button class="btn btn-primary" type="submit">Search</button>                
             </div>
           </form>
@@ -40,9 +41,9 @@
                 </a>
                 <div class="side-menu__user-idnfo ml-3">
                     {% if user.first_name %}
-                    <strong href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.first_name|title }} {{user.last_name|title }}</strong>
+                      <strong href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.first_name|title }} {{user.last_name|title }}</strong>
                     {% else%}
-                    <strong href="">Instagram User</strong>
+                      <strong href="">Instagram User</strong>
 
                     {% endif %}
                     <br>
@@ -56,26 +57,20 @@
                     >
                         New message
                     </a>
-
                 </div>
-            </div>
-            <!-- <hr> -->
+              </div>
             {% endif %}
-        {% endfor %}
-        
-          
+        {% endfor %} 
         </form>
-        
       </div>
     </div>
     
-
     <footer class="footer mt-auto py-2">
         <div class="container text-center" style="margin-top:26rem;">
             <span class="text-muted">© 2024 Platzigram</span>
         </div>
     </footer>
- 
+
   </div>
 
 {% endblock container %}

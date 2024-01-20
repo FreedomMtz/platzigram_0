@@ -2,68 +2,62 @@
 {% load static %}
 
 {% block head_content %}
-<title>@{{ user.username }} | Following</title>
+    <title>@{{ user.username }} | Following</title>
 {% endblock %}
 
 {% block container %}
 <div class="container">
     <div class="row justify-content-md-center" style="margin-top: -1em;">
         <div class="col-6 p-4" id="profile-box">
-            <div class='media'>
-                        
+            <div class='media'>        
                 {% if user.profile.picture %}
                     <img src="{{ user.profile.picture.url }}" class="rounded-circle" height="50"/>
                 {% else %}
                     <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50"/>
                 {% endif %}
-                
                 <div class="media-body">
                     <h5 class="ml-4">@{{ user.username }} | {{user.get_full_name}}</h5>
                 </div>
             </div>
             <hr>
             <strong>Following:</strong>
-                <div id="wrapper">
-                    <div class="container mt-0 d-flex justify-content-center ">
-                        <div class="phone-app-ddemo"></div>
-                            <div class="form-data">
-                                {% for user in users_filter %}
-                                    
-                                        <div class="side-menu__user-profile d-flex align-items-center justify-content-start " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:25vw;">
-                                            <a href=" {% url 'users:detail' user.username %} " class="side-menu__user-avatar">
-                                            {% if user.profile.picture %}
-                                                <img src="{{ user.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
-                                            {% else %}
-                                                <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
-                                                                        
-                                            {% endif %}
-                                            </a>
-                                            <div class="side-menu__user-idnfo ml-3">
-                                                {% if user.first_name %}
-                                                    <strong href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.first_name|title }} {{user.last_name|title }}</strong>
-                                                {% else%}
-                                                <strong href="">Instagram User</strong>
-                                                {% endif %}
-                                                <br>
-                                                <span style="font-size: 14px;">@{{user.username}}</span>
-                                                <br>
-                                                <a href="{% url 'users:detail' user.username %}" {#style="color: blue;"#} class="btn btn-sm btn-outline-info">View Profile</a>
-                                                <br>
-                                                <a
-                                                    href="{% url "directs:newMessage" user.username %}"
-                                                    class="btn btn-sm btn-outline-info mt-1"
-                                                >
-                                                    New message
-                                                </a>
-                                            </div>
-                                        </div>
-                            <!-- <hr> -->
-                                   
-                                {% endfor %} 
-                            </div>
+            <div id="wrapper">
+                <div class="container mt-0 d-flex justify-content-center ">
+                    <div class="phone-app-ddemo"></div>
+                        <div class="form-data">
+                            {% for user in users_filter %}
+                                <div class="side-menu__user-profile d-flex align-items-center justify-content-start " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:25vw;">
+                                    <a href=" {% url 'users:detail' user.username %} " class="side-menu__user-avatar">
+                                    {% if user.profile.picture %}
+                                        <img src="{{ user.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
+                                    {% else %}
+                                        <img src="{% static 'img/default-profile.png' %}" alt="User Picture default" class="rounded-circle" width="100px" height="100px">
+                                    {% endif %}
+                                    </a>
+                                    <div class="side-menu__user-idnfo ml-3">
+                                        {% if user.first_name %}
+                                            <strong href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.first_name|title }} {{user.last_name|title }}</strong>
+                                        {% else%}
+                                            <strong href="">Instagram User</strong>
+                                        {% endif %}
+                                        <br>
+                                        <span style="font-size: 14px;">@{{user.username}}</span>
+                                        <br>
+                                        <a href="{% url 'users:detail' user.username %}" {#style="color: blue;"#} class="btn btn-sm btn-outline-info">View Profile</a>
+                                        <br>
+                                        <a
+                                            href="{% url "directs:newMessage" user.username %}"
+                                            class="btn btn-sm btn-outline-info mt-1"
+                                        >
+                                            New message
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %} 
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

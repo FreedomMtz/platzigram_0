@@ -1,15 +1,12 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
-    <div class="container">
-        
+    <div class="container">    
         {#Feed button.#}
         <a class="navbar-brand pr-5" style="border-right: 1px solid #efefef;" href="{% url "posts:feed" %}">
             <img src="{% static "img/instagram.png" %}" height="45" class="d-inline-block align-top"/>
         </a>
-
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-
                 {#Profile button.#}
                 <li class="nav-item">
                     <a href="{% url "users:detail" request.user.username %}">
@@ -20,21 +17,18 @@
                         {% endif %}
                     </a>
                 </li>
-                
                 {#Create post button.#}
                 <li class="nav-item nav-icon">
                     <a href="{% url "posts:create" %}">
                         <i class="fas fa-plus"></i>
                     </a>
                 </li>
-
-                <li class="nav-item nav-icon"> {% comment %} Botono logout {% endcomment %}
+                {#logout button.#}
+                <li class="nav-item nav-icon"> 
                     <a href="{% url "users:logout" %}">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
-
-                
             </ul>
             {#Search modo#}
         </div >
@@ -54,23 +48,16 @@
                 {% endif %}
             </a>
         </li>
-        {% comment %} Notificacion de likes, follows, comments {% endcomment %}
+        {# Notificacion de likes, follows, comments #}
         <li class="nav-item nav-icon position-relative "  style="list-style: none;">
             <a href="{% url "notifications:showNotifi" %}" >
                 <i class="fa-regular fa-bell " style="font-size: 2.2rem;"></i>
-                {% if count_notifications %} {% comment %} corregir {% endcomment %}
+                {% if count_notifications %} 
                     <strong class="position-absolute top-0 start-70 translate-middle badge rounded-pill bg-danger fs-10" style="font-size: .7rem;">
                         {{count_notifications}}
                     </strong>
                 {% endif %}
             </a>
-        </li>
-
-
-       
-
-        
-        
-
+        </li>        
     </div>
 </nav>
