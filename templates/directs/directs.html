@@ -238,6 +238,11 @@
                       href="{% url 'directs:deleteMessage' recipient.username  %}"
                       >Delete</a
                     >
+                    <a
+                      class="dropdown-item"
+                      href="{% url 'users:detail' recipient.username   %}"
+                      >View Profile</a
+                    >
                   </div>
                 </li>
               </ul>
@@ -255,14 +260,25 @@
                 {% if direct.sender == request.user %}
                   <div class="chat-message-right pb-2">
                     <div>
-                      <a href=""
-                        ><img
+                      <a href="">
+                        {% if direct.sender.profile.picture %}
+                          <img
                           src="{{ direct.sender.profile.picture.url }}"
                           class="rounded-circle mr-1"
                           alt="img"
                           width="40"
                           height="40"
-                      /></a>
+                          />
+                        {% else %}
+                          <img
+                          src="{% static 'img/default-profile.png' %}"
+                          class="rounded-circle mr-1"
+                          alt="img"
+                          width="40"
+                          height="40"
+                          />
+                        {% endif %}
+                      </a>  
                       <div
                         class="text-muted small text-nowrap mt-2"
                         style="font-size: 10px; color: rgba(180, 180, 180, 0)"
