@@ -3,7 +3,7 @@
 
 
 {% block head_content %}
-<title>@{{ user.username }} | Platzigram</title>
+<title>@{{ user.username }} | Detail user</title>
 
 
 {% endblock %}
@@ -21,8 +21,10 @@
             </div>
             <div class="col-sm-8">
                 <h2 style="font-weight: 100;">
-                    @{{ user.username }}
+                    <strong>
+                        {{user.first_name|title }} {{user.last_name|title }}
 
+                    </strong>
                     {% if user == request.user %}
                         <a
                             href="{% url "users:update" %}"
@@ -47,6 +49,7 @@
                             </a>
                         {% endif %}    
                     {% endif %}
+                    
                     {% if user != request.user %}       
                         <a
                             href="{% url "directs:newMessage" user.username %}"
@@ -56,17 +59,18 @@
                         </a>
                     {% endif %}
                 </h3>
+                <strong>@{{ user.username }}</strong>
                 <div class="row mt-2" style="font-size: 1.2em">
                     <div class="col-sm-4">
                         <b>◉ {{ posts_count }}</b> posts
                     </div>
                     <div class="col-sm-4">
-                        <a href="{% url "users:followers" user.username %}">
+                        <a href="{% url "users:followers" user.username %}" style=" text-decoration: none;">
                             <b>◉ {{ followers_count }}</b> followers
                         </a>
                     </div>
                     <div class="col-sm-4">
-                        <a href="{% url "users:following" user.username %}">
+                        <a href="{% url "users:following" user.username %}" style=" text-decoration: none;">
                             <b>◉ {{ following_count }}</b> following
                         </a>
                     </div>
@@ -75,11 +79,12 @@
                 <div class="row mt-4">
                     <div class="col-sm-12">
                         {% if  user.profile.website%}
-                            <strong><a href="{{user.profile.website}}" target="_blank">◉ {{ user.profile.website }}</a></strong>   
+                            <strong><a href="{{user.profile.website}}" target="_blank" style=" text-decoration: none;">◉ {{ user.profile.website }} </a></strong>   
                         {% endif %}
-                        
-                        <hr>      
-                        <p>◉ {{ user.profile.biography }}</p>
+                        {% if  user.profile.biography%}
+                            <hr>      
+                            <p>◉ {{ user.profile.biography }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

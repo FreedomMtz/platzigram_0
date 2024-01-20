@@ -29,14 +29,11 @@ urlpatterns = [
     path('users/', include(('users.urls','users'), namespace='users')), # En la tupla incluimos al modulo "users.urls" y la app "users".
     path('comment/', include(('comment.urls','comment'), namespace='comment')), # En la tupla incluimos al modulo "comment.urls" y la app "comment".
     path('message/', include(('directs.urls','directs'), namespace='directs')), # En la tupla incluimos al modulo "directs.urls" y la app "directs".
+    path('notifications/', include(('notifications.urls','notifications'), namespace='notifications')), # En la tupla incluimos al modulo "notifications.urls" y la app "notifications".
     
     
     #Password reset
-    path(route='password_reset/', 
-         view=auth_views.PasswordResetView.as_view(), 
-         name='password_reset'
-    ),
-    
+    path(route='password_reset/', view=auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),

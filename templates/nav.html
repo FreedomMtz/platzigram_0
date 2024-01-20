@@ -39,8 +39,8 @@
             {#Search modo#}
         </div >
         <form action="{% url 'directs:userSearch' %}" method="GET" >
-            <div class="headedr__search" style="margin-right:22rem;">
-                <input type="text" placeholder="Search Account" name="q" value="{{ request.GET.q }}">
+            <div class="headedr__search" style="margin-right:19rem;">
+                <input type="text" placeholder="Search Account" name="q" value="{{ request.GET.q }}" required>
                 <button class="btn btn-primary" type="submit">Search</button>
             </div>
         </form>
@@ -54,6 +54,22 @@
                 {% endif %}
             </a>
         </li>
+        {% comment %} Notificacion de likes, follows, comments {% endcomment %}
+        <li class="nav-item nav-icon position-relative "  style="list-style: none;">
+            <a href="{% url "notifications:showNotifi" %}" >
+                <i class="fa-regular fa-bell " style="font-size: 2.2rem;"></i>
+                {% if count_notifications %} {% comment %} corregir {% endcomment %}
+                    <strong class="position-absolute top-0 start-70 translate-middle badge rounded-pill bg-danger fs-10" style="font-size: .7rem;">
+                        {{count_notifications}}
+                    </strong>
+                {% endif %}
+            </a>
+        </li>
+
+
+       
+
+        
         
 
     </div>

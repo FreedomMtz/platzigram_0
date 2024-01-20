@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block head_content %}
-<title>@{{ user.username }} | Platzigram</title>
+<title>@{{ user.username }} | Followers</title>
 {% endblock %}
 
 {% block container %}
 <div class="container">
     <div class="row justify-content-md-center" style="margin-top: -1em;">
         <div class="col-6 p-4" id="profile-box">
-                <div class='media'>
+            <div class='media'>
                             
                     {% if user.profile.picture %}
                         <img src="{{ user.profile.picture.url }}" class="rounded-circle" height="50"/>
@@ -26,10 +26,10 @@
                 <div id="wrapper">
                     <div class="container mt-0 d-flex justify-content-center ">
                         <div class="phone-app-ddemo"></div>
-                            <div class="form-data">
+                            <div class="form-data ">
                                 {% for user in users_filter %}
-                                    {% if  user != request.user%}
-                                        <div class="side-menu__user-profile d-flex align-items-center justify-content-center " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px;">
+                                    
+                                        <div class="side-menu__user-profile d-flex align-items-center justify-content-start " style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px; width:25vw;">
                                             <a href=" {% url 'users:detail' user.username %} " class="side-menu__user-avatar">
                                             {% if user.profile.picture %}
                                                 <img src="{{ user.profile.picture.url }}" alt="User Picture" class="rounded-circle" width="100px" height="100px">
@@ -38,9 +38,9 @@
                                                                         
                                             {% endif %}
                                             </a>
-                                            <div class="side-menu__user-idnfo ml-1">
-                                                {% if user.profile.first_name %}
-                                                    <a href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.profile.first_name|title }} {{user.profile.last_name|title }}</a>
+                                            <div class="side-menu__user-idnfo ml-3">
+                                                {% if user.first_name %}
+                                                    <strong href="{% url 'users:detail' user.username %}" style="font-size: 15px; color: black; text-align: center;">{{user.first_name|title }} {{user.last_name|title }}</strong>
                                                 {% else%}
                                                 <strong href="">Instagram User</strong>
                                                 {% endif %}
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                             <!-- <hr> -->
-                                    {% endif %}
+                                    
                                 {% endfor %} 
                             </div>
                         </div>

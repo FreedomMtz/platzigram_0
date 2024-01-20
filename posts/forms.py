@@ -6,9 +6,11 @@ from django import forms
 from posts.models import Post
 
 """Esta es otra forma de crear modelos (ModelForm)"""
-class PostForm(forms.ModelForm):  
+
+
+class PostForm(forms.ModelForm):
     """Post model form."""
     class Meta:
         """Form settings"""
-        model =Post
-        fields = ('user','profile', 'title', 'photo')
+        model = Post
+        fields = ('user', 'profile', 'title', 'photo')
