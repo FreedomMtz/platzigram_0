@@ -1,5 +1,6 @@
 # Django.
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 # Models.
 from notifications.models import Notification
@@ -30,6 +31,6 @@ def CountNotifications(request):
     count_notifications = 0
     if request.user.is_authenticated:
         count_notifications = Notification.objects.filter(
-            user=request.user, is_seen=False).count()
-
+            Q(user=request.user,is_seen=False) & ~Q(sender=request.user)).count()
+        
     return {'count_notifications': count_notifications}
