@@ -22,12 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y#u%ab%5&==1(*d$!irdb=ib0%dfvixv_4dnmydyrg1x+sv-^n'
+#SECRET_KEY = 'django-insecure-y#u%ab%5&==1(*d$!irdb=ib0%dfvixv_4dnmydyrg1x+sv-^n'
+
+# ESTA OPCION GENERA UNA LLAVE SECRETA EN LA NUBE (RENDER) Y QUE SOLO ES ACCESADA UNA VEZ ESTE EN LINEA Y NO ES VISIBLE
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = 'RENDER' not in os.environ #esta es una condicionante que sera verdadera si no estamos en RENDER
+
 
 ALLOWED_HOSTS = []
+#AQUI ASIGNAMOS UN DOMINIO QUE NOS DA "RENDER_EXTERNAL_HOSTNAME" A UNA VARIABLE+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME: #SI LA VARIABLE CONTIENE UNA DIRECCION ENTONCES
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME) #AÑADE EL CONTENIDO A "ALLOWED_HOSTS"
 
 
 # Application definition
@@ -62,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'platzigram.middleware.ProfileCompletionMiddlewere',
     'platzigram.middleware.NotificationMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'platzigram.urls'
@@ -142,6 +154,10 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+if not DEBUG: 
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
