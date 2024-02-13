@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'platzigram.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Feel free to alter this value to suit your needs.
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        default='postgres://platzigramdb_user:6JzBFOuK0oIfwC332WvigIXWx8yaKpJy@dpg-cn5cqjgl5elc73e61nug-a/platzigramdb',
         conn_max_age=600
     )
 }
