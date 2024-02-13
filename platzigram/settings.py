@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 #DEBUG = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ #esta es una condicionante que sera verdadera si no estamos en RENDER
+DEBUG = os.environ.get("DEBUG", True) #esta es una condicionante que sera verdadera si no estamos en RENDER
 
 
 ALLOWED_HOSTS = []
@@ -168,9 +168,8 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-if not DEBUG: 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
