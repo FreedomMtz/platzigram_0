@@ -1,6 +1,7 @@
 FROM python:3.10.4-alpine3.15
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app
 
@@ -14,5 +15,4 @@ RUN pip install -r requirements.txt
 
 COPY ./ ./
 
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT [ "gunicorn", "core.wsgi", "-b", "0.0.0.0:8000"]
