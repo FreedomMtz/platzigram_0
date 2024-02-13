@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 
 COPY ./ ./
 
-CMD ["python", "manage.py", "migrate"]
+RUN python manage.py migrate
 
 ENTRYPOINT [ "gunicorn", "platzigram.wsgi", "-b", "0.0.0.0:8000"]
 
