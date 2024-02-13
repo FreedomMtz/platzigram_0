@@ -17,4 +17,4 @@ COPY ./ ./
 
 RUN python manage.py migrate
 
-ENTRYPOINT [ "gunicorn", "platzigram.wsgi", "-b", "0.0.0.0:8000"]
+ENTRYPOINT [ "gunicorn", "platzigram.wsgi"]
