@@ -34,12 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 DEBUG = os.environ.get("DEBUG", True) #esta es una condicionante que sera verdadera si no estamos en RENDER
 
 
-ALLOWED_HOSTS = []
-#AQUI ASIGNAMOS UN DOMINIO QUE NOS DA "RENDER_EXTERNAL_HOSTNAME" A UNA VARIABLE+
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME: #SI LA VARIABLE CONTIENE UNA DIRECCION ENTONCES
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME) #AÑADE EL CONTENIDO A "ALLOWED_HOSTS"
-
+ALLOWED_HOSTS = ['.onrender.com']
 
 # Application definition
 
