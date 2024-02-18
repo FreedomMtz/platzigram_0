@@ -15,8 +15,6 @@ RUN pip install -r requirements.txt
 
 COPY ./ ./
 
-RUN mkdir -p /app/media
-
 RUN python manage.py migrate
 
 ENTRYPOINT [ "gunicorn", "platzigram.wsgi", "-b", "0.0.0.0:8000"]
