@@ -75,6 +75,13 @@ html, body {
   #profile-section{
     margin-left: -8rem;
   }
+  #card-notifi {
+    text-align: start;
+    border: solid rgba(192, 192, 192, 0.514) 1px;
+    padding: 10px;
+    border-radius: 25px;
+    width: 40vw;
+  }
 
 @media screen and (max-width: 1200px) {
 
